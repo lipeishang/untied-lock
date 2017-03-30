@@ -1,15 +1,16 @@
 function untiedLock() {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext('2d');
-    this.pswObj = window.localStorage.getItem('passwordxx') ? {
+    this.pswObj = window.localStorage.getItem('password') ? {
         step: 0,
-        spassword: JSON.parse(window.localStorage.getItem('passwordxx'))
+        spassword: JSON.parse(window.localStorage.getItem('password'))
     } : {};
     var isTouch = false;
     // this.touchedArr = [];
     this.untouchedArr = [];
     this.radio = document.getElementsByName("radio");
     createCircle();
+    document.getElementById("title").innerHTML=("请输入手势密码");
     touchEvent(isTouch);//添加事件函数
 
 }
@@ -61,6 +62,9 @@ function checkPass(psw1, psw2) {// 检测密码
 function storePass(psw) {// touchend结束之后对密码和状态的处理
     if (psw.length < 5 && this.pswObj.step === 0) {
         document.getElementById('title').innerHTML = '密码太短，至少需要5个点';
+        setTimeout(function () {
+            document.getElementById('title').innerHTML = '请输入手势密码';
+        }, 800);
     }
     else {
         if (this.pswObj.step == 1 && this.radio[0].checked === true) {
@@ -69,7 +73,7 @@ function storePass(psw) {// touchend结束之后对密码和状态的处理
                 this.pswObj.spassword = psw;
                 document.getElementById('title').innerHTML = '密码保存成功';
                 this.drawStatusPoint('#2CFF26');
-                window.localStorage.setItem('passwordxx', JSON.stringify(this.pswObj.spassword));
+                window.localStorage.setItem('password', JSON.stringify(this.pswObj.spassword));
                 // window.localStorage.setItem('chooseType', this.chooseType);
             } else {
                 document.getElementById('title').innerHTML = '两次的不一致，请重新设置密码';
@@ -86,6 +90,7 @@ function storePass(psw) {// touchend结束之后对密码和状态的处理
                 document.getElementById('title').innerHTML = '输入的密码不正确';
             }
         } else if (this.pswObj.step == 0 && this.radio[0].checked === true) {
+
             this.pswObj.step = 1;
             this.pswObj.fpassword = psw;
             document.getElementById('title').innerHTML = '请再次输入手势密码';
