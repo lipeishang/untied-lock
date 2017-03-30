@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/untiedLock.js"></script>
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>-->
+    <style>
+        body{
+            font-size: 50px;
+        }
+        canvas {
+            margin: 10% 0 10% 0;
+            /*border: 1px solid black;*/
+        }
+    </style>
+</head>
+<body onload="untiedLock()">
+<div style="font-size: 50px;margin-top: 50px;text-align: center">手势密码</div>
+<canvas id="canvas" width="1000" height="900">
+
+</canvas>  <!--默认300*150-->
+<div id="title" style="font-size: 50px;text-align: center;width: auto;height: 200px;"></div>
+<div>
+    <input type="radio" id="radio1" name="radio" style="margin-left: 40%;width: 40px;height: 40px;" checked>设置密码
+</div>
+<div>
+    <input type="radio"  id="radio2" name="radio" style="margin-left: 40%;width: 40px;height: 40px;" >验证密码
+</div>
+
+</body>
+</html>
