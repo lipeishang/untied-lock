@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a6cc8ff-e265-4aad-baf0-344d4b1d8b3e" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/READ.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="untied-lock.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -228,12 +228,12 @@
       <workItem from="1490922683495" duration="603000" />
       <workItem from="1492000215802" duration="619000" />
       <workItem from="1492085733895" duration="16000" />
-      <workItem from="1501384763086" duration="108000" />
+      <workItem from="1501384763086" duration="203000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8336000" />
+    <option name="totallyTimeSpent" value="8431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
