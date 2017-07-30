@@ -6,8 +6,8 @@ function untiedLock() {
         spassword: JSON.parse(window.localStorage.getItem('password'))
     } : {};
     var isTouch = false;
-    // this.touchedArr = [];
-    this.untouchedArr = [];
+    // this.throughArr = [];
+    this.unthroughArr = [];
     this.radio = document.getElementsByName("radio");
     createCircle();
     document.getElementById("title").innerHTML=("请输入手势密码");
@@ -22,26 +22,26 @@ function getMov(po) {// 核心变换方法在touchmove时候调用，在移动�
         this.drawCircle(this.circleArray[i].x, this.circleArray[i].y);
     }
 
-    this.drawPoint(this.touchedArr);// 每帧花轨迹
-    this.drawLine(po, this.touchedArr);// 每帧画圆心
+    this.drawPoint(this.throughArr);// 每帧花轨迹
+    this.drawLine(po, this.throughArr);// 每帧画圆心
 
-    for (var i = 0; i < this.untouchedArr.length; i++) {
-        if (Math.abs(po.x - this.untouchedArr[i].x) < this.r && Math.abs(po.y - this.untouchedArr[i].y) < this.r) {
-            this.drawPoint(this.untouchedArr[i].x, this.untouchedArr[i].y);
-            this.touchedArr.push(this.untouchedArr[i]);
-            console.log(this.touchedArr);
-            this.untouchedArr.splice(i, 1);
+    for (var i = 0; i < this.unthroughArr.length; i++) {
+        if (Math.abs(po.x - this.unthroughArr[i].x) < this.r && Math.abs(po.y - this.unthroughArr[i].y) < this.r) {
+            this.drawPoint(this.unthroughArr[i].x, this.unthroughArr[i].y);
+            this.throughArr.push(this.unthroughArr[i]);
+            console.log(this.throughArr);
+            this.unthroughArr.splice(i, 1);
             break;
         }
     }
 }
 
 function drawStatusPoint(type) { // 初始化状态线条
-    for (var i = 0 ; i < this.touchedArr.length ; i++) {
+    for (var i = 0 ; i < this.throughArr.length ; i++) {
         this.ctx.fillStyle = type;
         this.ctx.strokeStyle = type;
         this.ctx.beginPath();
-        this.ctx.arc(this.touchedArr[i].x, this.touchedArr[i].y, this.r, 0, Math.PI * 2, true);
+        this.ctx.arc(this.throughArr[i].x, this.throughArr[i].y, this.r, 0, Math.PI * 2, true);
         this.ctx.closePath();
         this.ctx.stroke();
     }
@@ -99,10 +99,10 @@ function storePass(psw) {// touchend结束之后对密码和状态的处理
 }
 
 function drawPoint() { // 初始化圆心
-    for (var i = 0; i < this.touchedArr.length; i++) {
+    for (var i = 0; i < this.throughArr.length; i++) {
         this.ctx.fillStyle = '#CFE6FF';
         this.ctx.beginPath();
-        this.ctx.arc(this.touchedArr.x, this.touchedArr.y, this.r, 0, Math.PI * 2, true);
+        this.ctx.arc(this.throughArr.x, this.throughArr.y, this.r, 0, Math.PI * 2, true);
         this.ctx.closePath();
         this.ctx.fillStyle = "rgb(2,100,30)";
     }
@@ -111,9 +111,9 @@ function drawPoint() { // 初始化圆心
 function drawLine(po) {// 解锁轨迹
     this.ctx.beginPath();
     this.ctx.lineWidth = 3;
-    this.ctx.moveTo(this.touchedArr[0].x, this.touchedArr[0].y);
-    for (var i = 1; i < this.touchedArr.length; i++) {
-        this.ctx.lineTo(this.touchedArr[i].x, this.touchedArr[i].y);
+    this.ctx.moveTo(this.throughArr[0].x, this.throughArr[0].y);
+    for (var i = 1; i < this.throughArr.length; i++) {
+        this.ctx.lineTo(this.throughArr[i].x, this.throughArr[i].y);
     }
     this.ctx.lineTo(po.x, po.y);
     this.ctx.stroke();
@@ -123,7 +123,7 @@ function drawLine(po) {// 解锁轨迹
 
 function drawCircle(x, y) {
     this.ctx.strokeStyle = 'rgb(0,' + Math.floor(255 - 42.5) + ',' + Math.floor(255 - 42.5) + ')';
-    this.ctx.lineWidth = 2;
+    this.ctx.lineWidth = 3;
     this.ctx.beginPath();
     // console.log(this.r);
     this.ctx.arc(x, y, this.r, 0, Math.PI * 2, true);
@@ -137,8 +137,8 @@ function reset() {
 
 function createCircle() {// 创建解锁点的坐标，根据canvas的大小来平均分配半径
     var count = 0;
-    this.untouchedArr = [];
-    this.touchedArr = [];
+    this.unthroughArr = [];
+    this.throughArr = [];
     this.circleArray = [];
     this.r = this.ctx.canvas.width / (2 + 4 * 3);// 公式计算
     for (var i = 0; i < 3; i++) {
@@ -151,8 +151,8 @@ function createCircle() {// 创建解锁点的坐标，根据canvas的大小来�
             };
             this.circleArray.push(obj);
             // console.log(this.circleArray);
-            this.untouchedArr.push(obj);
-            // console.log(this.untouchedArr)
+            this.unthroughArr.push(obj);
+            // console.log(this.unthroughArr)
         }
     }
     //清空画布
@@ -175,7 +175,7 @@ function getPosition(e) {// 获取touch点相对于canvas的坐标
 //给每个圈绑定触摸事件
 function touchEvent() { //isTouch为false
     var self = this;
-    // this.touchedArr = [];
+    // this.throughArr = [];
     this.canvas.addEventListener("touchstart", function (startEve) {//将触摸到的点画出来
 
         startEve.preventDefault();
@@ -189,10 +189,10 @@ function touchEvent() { //isTouch为false
                 //先把触摸的这个点画出来
                 drawPoint(self.circleArray[i].x, self.circleArray[i].y);
                 //保存去掉正确路径下的圈圈
-                // console.log(self.untouchedArr);
-                self.touchedArr.push(self.circleArray[i]);
-                self.untouchedArr.splice(i, 1);
-                // console.log(self.touchedArr);
+                // console.log(self.unthroughArr);
+                self.throughArr.push(self.circleArray[i]);
+                self.unthroughArr.splice(i, 1);
+                // console.log(self.throughArr);
                 break;
             }
         }
@@ -205,7 +205,7 @@ function touchEvent() { //isTouch为false
     this.canvas.addEventListener("touchend", function (endEve) {
         if (self.isTouch) {
             self.isTouch = false;
-            storePass(self.touchedArr);
+            storePass(self.throughArr);
             setTimeout(function () {
                 reset();
             }, 300);
